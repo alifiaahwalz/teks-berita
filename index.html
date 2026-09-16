@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Pembelajaran Teks Berita - Kelas XI</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --accent: #eff6ff;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px 0;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+
+    /* Main Navigation Tabs */
+    .main-nav {
+      display: flex;
+      background: #f1f5f9;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .nav-btn {
+      flex: 1;
+      padding: 16px 10px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn.active {
+      background: white;
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .nav-btn:hover:not(.active) {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .page-content {
+      display: none;
+    }
+
+    .page-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sub Tabs (Switcher) */
+    .sub-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sub-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--primary);
+      background: white;
+      color: var(--primary);
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .sub-btn.active, .sub-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* News Box */
+    .news-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      padding: 22px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+    }
+
+    .news-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .news-body p {
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Pattern & Analysis Card */
+    .pattern-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .pattern-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .pattern-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    .analysis-box {
+      background: var(--accent);
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+    }
+
+    .analysis-box h4 {
+      margin-top: 0;
+      color: #1e40af;
+      margin-bottom: 8px;
+    }
+
+    /* Quiz Styling */
+    .quiz-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 12px 15px;
+      margin: 8px 0;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      background: #f1f5f9;
+    }
+
+    .quiz-option.correct {
+      background: #dcfce7 !important;
+      border-color: #4ade80 !important;
+      color: #166534;
+      font-weight: bold;
+    }
+
+    .quiz-option.incorrect {
+      background: #fee2e2 !important;
+      border-color: #f87171 !important;
+      color: #991b1b;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.85rem;
+      color: #64748b;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Media Pembelajaran Teks Berita - Kelas XI</h1>
+    <p>Topik: Abu Vulkanik Gunung Anak Krakatau</p>
+  </header>
+
+  <!-- Navigasi Utama (Tanpa Penomoran Menu) -->
+  <nav class="main-nav">
+    <button class="nav-btn active" onclick="switchPage('berita-page', this)">CONTOH TEKS BERITA</button>
+    <button class="nav-btn" onclick="switchPage('analisis-page', this)">POLA PENYAJIAN & ANALISIS</button>
+    <button class="nav-btn" onclick="switchPage('kuis-page', this)">UJI PEMAHAMAN</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- TAB 1: CONTOH TEKS BERITA -->
+    <div id="berita-page" class="page-content active">
+      <h2>Contoh Teks Berita</h2>
+      <p>Pilihlah salah satu contoh teks berita di bawah ini untuk membaca teksnya secara utuh:</p>
+
+      <div class="sub-tabs">
+        <button class="sub-btn active" onclick="showNews('news1', this)">Contoh Berita 1</button>
+        <button class="sub-btn" onclick="showNews('news2', this)">Contoh Berita 2</button>
+        <button class="sub-btn" onclick="showNews('news3', this)">Contoh Berita 3</button>
+      </div>
+
+      <!-- Berita 1 -->
+      <div id="news1" class="news-display">
+        <div class="news-card">
+          <div class="news-title">Abu Vulkanik Anak Krakatau Berdampak pada Penerbangan dan Sekolah</div>
+          <div class="news-body">
+            <p>Sebaran abu vulkanik Gunung Anak Krakatau berdampak pada sejumlah aktivitas masyarakat, termasuk penerbangan dan kegiatan sekolah. Kondisi tersebut terjadi setelah abu vulkanik menyebar ke beberapa wilayah.</p>
+            <p>Dampak juga dirasakan oleh masyarakat dalam bidang kesehatan. Dinas kesehatan menerima laporan warga yang mengalami keluhan pada saluran pernapasan. Kelompok lanjut usia menjadi salah satu kelompok yang lebih rentan terhadap dampak abu vulkanik.</p>
+            <p>Di sektor transportasi udara, sejumlah penerbangan mengalami pembatalan akibat kondisi abu vulkanik. Sementara itu, beberapa sekolah melakukan pembelajaran jarak jauh untuk menjaga keselamatan peserta didik.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Berita 2 -->
+      <div id="news2" class="news-display" style="display: none;">
+        <div class="news-card">
+          <div class="news-title">Aktivitas Abu Vulkanik Anak Krakatau Berdampak pada Masyarakat</div>
+          <div class="news-body">
+            <p>Pada malam hari, abu vulkanik Gunung Anak Krakatau mulai menyebar ke sejumlah wilayah. Kondisi tersebut menyebabkan masyarakat di beberapa daerah mulai merasakan dampaknya.</p>
+            <p>Setelah abu menyebar, muncul laporan mengenai gangguan kesehatan, terutama keluhan pada saluran pernapasan. Masyarakat kemudian diimbau untuk memperhatikan kondisi kesehatan dan mengurangi paparan abu vulkanik.</p>
+            <p>Kemudian, aktivitas penerbangan mulai terganggu. Sejumlah penerbangan dibatalkan karena kondisi abu vulkanik yang berada di wilayah jalur penerbangan.</p>
+            <p>Setelah itu, dampak juga dirasakan oleh sektor pendidikan. Beberapa sekolah melakukan pembelajaran jarak jauh sebagai langkah untuk menjaga keselamatan peserta didik.</p>
+            <p>Selanjutnya, masyarakat terus mengikuti perkembangan kondisi Gunung Anak Krakatau dan sebaran abu vulkaniknya.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Berita 3 -->
+      <div id="news3" class="news-display" style="display: none;">
+        <div class="news-card">
+          <div class="news-title">Abu Vulkanik Memengaruhi Berbagai Aktivitas Masyarakat</div>
+          <div class="news-body">
+            <p>Sebaran abu vulkanik Gunung Anak Krakatau memengaruhi berbagai aktivitas masyarakat di sejumlah wilayah. Dampaknya terlihat dalam bidang kesehatan, transportasi, dan pendidikan.</p>
+            <p>Dalam bidang kesehatan, masyarakat mengalami keluhan pada saluran pernapasan akibat paparan abu vulkanik. Kelompok tertentu, seperti lanjut usia, perlu mendapatkan perhatian lebih karena lebih rentan terhadap dampak tersebut.</p>
+            <p>Pada sektor transportasi, sebaran abu vulkanik menyebabkan sejumlah penerbangan mengalami gangguan dan pembatalan. Kondisi tersebut berkaitan dengan keselamatan penerbangan.</p>
+            <p>Sementara itu, pada bidang pendidikan, beberapa sekolah menyesuaikan kegiatan pembelajaran dengan menerapkan pembelajaran jarak jauh untuk sementara waktu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TAB 2: POLA PENYAJIAN & ANALISIS -->
+    <div id="analisis-page" class="page-content">
+      <h2>Pola Penyajian dan Analisis Struktur</h2>
+      <p>Berikut adalah penjelasan 3 pola penyajian teks berita beserta analisis strukturnya:</p>
+
+      <!-- Pola 1 -->
+      <div class="pattern-card">
+        <div class="pattern-header">
+          <h3 class="pattern-title">Pola Piramida Terbalik (Contoh 1)</h3>
+        </div>
+        <div class="news-card" style="margin-bottom: 10px;">
+          <div class="news-title" style="font-size: 1.1rem;">Abu Vulkanik Anak Krakatau Berdampak pada Penerbangan dan Sekolah</div>
+          <p><span class="highlight">Paragraf 1 (Inti Utama/Penting):</span> Sebaran abu vulkanik Gunung Anak Krakatau berdampak pada sejumlah aktivitas masyarakat, termasuk penerbangan dan kegiatan sekolah. Kondisi tersebut terjadi setelah abu vulkanik menyebar ke beberapa wilayah.</p>
+          <p><em>Paragraf berikutnya berisi rincian pelengkap (kesehatan, penerbangan, dan sekolah).</em></p>
+        </div>
+        <div class="analysis-box">
+          <h4>Analisis — Mengapa termasuk Pola Piramida Terbalik?</h4>
+          <p>Karena informasi yang paling penting, yaitu <strong>dampak abu vulkanik terhadap aktivitas masyarakat</strong>, disampaikan secara utuh pada bagian awal (paragraf pertama). Setelah itu, barulah berita menjelaskan rincian dampak tersebut ke dalam bidang kesehatan, penerbangan, dan pendidikan pada paragraf-paragraf berikutnya yang sifatnya melengkapi/menurun tingkat kepentingannya.</p>
+        </div>
+      </div>
+
+      <!-- Pola 2 -->
+      <div class="pattern-card">
+        <div class="pattern-header">
+          <h3 class="pattern-title">Pola Kronologis (Contoh 2)</h3>
+        </div>
+        <div class="news-card" style="margin-bottom: 10px;">
+          <div class="news-title" style="font-size: 1.1rem;">Aktivitas Abu Vulkanik Anak Krakatau Berdampak pada Masyarakat</div>
+          <p><span class="highlight">Pada malam hari</span>, abu vulkanik mulai menyebar...</p>
+          <p><span class="highlight">Setelah abu menyebar</span>, muncul laporan gangguan kesehatan...</p>
+          <p><span class="highlight">Kemudian</span>, aktivitas penerbangan terganggu...</p>
+          <p><span class="highlight">Setelah itu</span>, dampak dirasakan sektor pendidikan...</p>
+          <p><span class="highlight">Selanjutnya</span>, masyarakat terus mengikuti perkembangan...</p>
+        </div>
+        <div class="analysis-box">
+          <h4>Analisis — Mengapa termasuk Pola Kronologis?</h4>
+          <p>Karena informasi disusun berdasarkan <strong>urutan terjadinya peristiwa (waktu)</strong>. Hal ini dibuktikan dengan adanya kata penanda waktu dan urutan proses: mulai dari penyebaran abu (<em>"Pada malam hari..."</em>), munculnya gangguan kesehatan (<em>"Setelah abu menyebar..."</em>), terganggunya penerbangan (<em>"Kemudian..."</em>), hingga penyesuaian kegiatan sekolah (<em>"Setelah itu.../Selanjutnya..."</em>).</p>
+        </div>
+      </div>
+
+      <!-- Pola 3 -->
+      <div class="pattern-card">
+        <div class="pattern-header">
+          <h3 class="pattern-title">Pola Deduktif (Contoh 3)</h3>
+        </div>
+        <div class="news-card" style="margin-bottom: 10px;">
+          <div class="news-title" style="font-size: 1.1rem;">Abu Vulkanik Memengaruhi Berbagai Aktivitas Masyarakat</div>
+          <p><span class="highlight">Paragraf 1 (Gagasan Umum):</span> Sebaran abu vulkanik Gunung Anak Krakatau memengaruhi berbagai aktivitas masyarakat di sejumlah wilayah. Dampaknya terlihat dalam bidang kesehatan, transportasi, dan pendidikan.</p>
+          <p><em>Paragraf 2, 3, dan 4 menjelaskan secara khusus masing-masing bidang (kesehatan, transportasi, pendidikan).</em></p>
+        </div>
+        <div class="analysis-box">
+          <h4>Analisis — Mengapa termasuk Pola Deduktif?</h4>
+          <p>Karena teks diawali dengan <strong>sebuah gagasan umum pada paragraf pertama</strong>, yaitu <em>"abu vulkanik memengaruhi berbagai aktivitas masyarakat di bidang kesehatan, transportasi, dan pendidikan."</em> Setelah gagasan utama (umum) itu disampaikan, barulah dijelaskan secara khusus/rinci satu per satu pada paragraf berikutnya (paragraf 2 khusus kesehatan, paragraf 3 khusus transportasi, dan paragraf 4 khusus pendidikan).</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TAB 3: UJI PEMAHAMAN -->
+    <div id="kuis-page" class="page-content">
+      <h2>Uji Pemahaman Pola Penyajian Berita</h2>
+      
+      <div class="quiz-card">
+        <p><strong>Soal 1:</strong> Berita yang menyampaikan informasi paling penting di awal paragraf lalu diikuti rincian pendukung yang sifatnya melengkapi menggunakan pola...</p>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb1')">A. Kronologis</button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fb1')">B. Piramida Terbalik</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb1')">C. Induktif</button>
+        <div id="fb1" class="feedback"></div>
+      </div>
+
+      <div class="quiz-card">
+        <p><strong>Soal 2:</strong> Penggunaan konjungsi seperti <em>"Pada malam hari"</em>, <em>"Kemudian"</em>, dan <em>"Setelah itu"</em> menandakan penyajian berita secara...</p>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fb2')">A. Kronologis</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb2')">B. Deduktif</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb2')">C. Piramida Terbalik</button>
+        <div id="fb2" class="feedback"></div>
+      </div>
+
+      <div class="quiz-card">
+        <p><strong>Soal 3:</strong> Berita yang diawali dengan pernyataan umum di paragraf pertama, kemudian diurai secara spesifik pada paragraf berikutnya disusun secara...</p>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb3')">A. Kronologis</button>
+        <button class="quiz-option" onclick="checkQuiz(this, false, 'fb3')">B. Piramida Terbalik</button>
+        <button class="quiz-option" onclick="checkQuiz(this, true, 'fb3')">C. Deduktif</button>
+        <div id="fb3" class="feedback"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Media Pembelajaran Teks Berita Bahasa Indonesia - Kelas XI
+  </footer>
+</div>
+
+<script>
+  // Navigasi Utama Antar Tab
+  function switchPage(pageId, btn) {
+    const pages = document.querySelectorAll('.page-content');
+    pages.forEach(p => p.classList.remove('active'));
+
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => b.classList.remove('active'));
+
+    document.getElementById(pageId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Sub Navigasi Berita Switcher
+  function showNews(newsId, btn) {
+    const newsDisplays = document.querySelectorAll('.news-display');
+    newsDisplays.forEach(n => n.style.display = 'none');
+
+    const subBtns = document.querySelectorAll('.sub-btn');
+    subBtns.forEach(b => b.classList.remove('active'));
+
+    document.getElementById(newsId).style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  // Kuis Logic
+  function checkQuiz(btn, isCorrect, feedbackId) {
+    const parent = btn.parentElement;
+    const options = parent.querySelectorAll('.quiz-option');
+    options.forEach(opt => {
+      opt.classList.remove('correct', 'incorrect');
+      opt.disabled = true;
+    });
+
+    const feedback = document.getElementById(feedbackId);
+    if (isCorrect) {
+      btn.classList.add('correct');
+      feedback.textContent = "Jawaban Benar! 🎉";
+      feedback.style.color = "#166534";
+    } else {
+      btn.classList.add('incorrect');
+      feedback.textContent = "Jawaban Kurang Tepat. Pelajari kembali materi pada bagian Pola Penyajian & Analisis.";
+      feedback.style.color = "#991b1b";
+    }
+  }
+</script>
+
+</body>
+</html>
